@@ -2,40 +2,11 @@
 #include "memory.h"
 #include "multiprogramming.h"
 
-// Make sure MAX_FRAMES is defined in memory.h
 #ifndef MAX_FRAMES
-    #define MAX_FRAMES 32 // Default value if not defined elsewhere
-#endif
-
-// Make sure Frame is defined
-#ifndef FRAME_DEFINED
-typedef struct {
-    int frame_id;
-    int pid;
-} Frame;
-#define FRAME_DEFINED
-#endif
-
-// Make sure Job is defined
-#ifndef JOB_DEFINED
-typedef struct {
-    int pid;
-    // Add other fields as needed
-} Job;
-#define JOB_DEFINED
-#endif
-
-// Dummy declarations if not provided elsewhere
-#ifndef GET_JOBS_DECLARED
-Job* get_jobs();
-int get_job_count();
-#define GET_JOBS_DECLARED
+#define MAX_FRAMES 32
 #endif
 
 static Frame frames[MAX_FRAMES];
-
-// Function prototype
-void display_memory();
 
 void init_memory() {
     Job* jobs = get_jobs();
@@ -46,26 +17,31 @@ void init_memory() {
         return;
     }
 
-    // Initialize all frames as empty
     for (int i = 0; i < MAX_FRAMES; i++) {
         frames[i].frame_id = i;
         frames[i].pid = 0;
     }
 
-    // Map jobs to frames (simple paging)
+    int jobs_mapped = 0;
     for (int i = 0; i < job_count && i < MAX_FRAMES; i++) {
         frames[i].pid = jobs[i].pid;
+        jobs_mapped++;
     }
 
     printf("[Memory] Jobs mapped to frames (Paging Simulation):\n");
     display_memory();
+    printf("\n[Memory] Summary: %d jobs mapped to %d frames.\n", jobs_mapped, MAX_FRAMES);
+    if (job_count > MAX_FRAMES) {
+        printf("[Memory] Warning: %d jobs could not be mapped due to insufficient frames.\n", job_count - MAX_FRAMES);
+    }
 }
 
 void display_memory() {
+    printf("\nFrame | Job PID\n----------------\n");
     for (int i = 0; i < MAX_FRAMES; i++) {
         if (frames[i].pid != 0)
-            printf("  Frame %d -> Job PID=%d\n", frames[i].frame_id, frames[i].pid);
+            printf("%5d | %7d\n", frames[i].frame_id, frames[i].pid);
         else
-            printf("  Frame %d -> Empty\n", frames[i].frame_id);
+            printf("%5d |   Empty\n", frames[i].frame_id);
     }
 }

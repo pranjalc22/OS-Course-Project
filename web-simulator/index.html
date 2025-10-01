@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Multiprogramming OS Simulator</h1>
+        <form id="jobForm">
+            <div id="jobInputs"></div>
+            <button type="button" onclick="addJobInput()">Add Job</button>
+            <button type="submit">Run Simulation</button>
+        </form>
+        <div id="results">
+            <h2>Simulation Results</h2>
+            <div id="processTable"></div>
+            <div id="memoryMap"></div>
+            <div id="schedulingOrder"></div>
+            <div id="charts"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

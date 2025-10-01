@@ -13,6 +13,7 @@ int main() {
 
     // Step 1: Multiprogramming (load jobs)
     init_jobs();
+    simulate_job_execution();
 
     // Step 2: Virtual Memory
     init_memory();
